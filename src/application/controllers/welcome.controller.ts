@@ -1,4 +1,5 @@
 import type { AuthenticationService } from "@/domains/authentication/authentication.service";
+import { indexRoute } from "@/presentation/routes/index/index.route";
 import { useNavigate } from "@tanstack/react-router";
 import z from "zod";
 
@@ -20,7 +21,7 @@ export const createUseWelcomeController = (
 	});
 
 	return () => {
-		const navigate = useNavigate();
+		const navigate = useNavigate({ from: indexRoute.fullPath });
 
 		const handleFormSubmit = () => {
 			return navigate({ to: "/dashboard" });

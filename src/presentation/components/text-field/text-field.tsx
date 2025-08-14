@@ -1,9 +1,6 @@
+import { isErrorWithMessage } from "@/lib/error/is-error-with-message";
 import { useFieldContext } from "@/presentation/form-context/form-hook-contexts";
 import { useId, type ReactNode } from "react";
-
-const isErrorWithMessage = (error: unknown): error is { message: string } => {
-	return typeof error === "object" && error !== null && "message" in error;
-};
 
 export const TextField = ({
 	label,
