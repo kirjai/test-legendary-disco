@@ -4,6 +4,7 @@ import { createRoute } from "@tanstack/react-router";
 import z from "zod";
 import { rootRoute } from "../root.route";
 import { Feed } from "./feed";
+import { Analytics } from "./analytics";
 
 export const dashboardRoute = createRoute({
 	getParentRoute: () => rootRoute,
@@ -15,11 +16,12 @@ export const dashboardRoute = createRoute({
 			.catch("feed"),
 	}),
 	component: function Dashboard() {
-		const { setView, view, feedQuery } = useDashboardController();
+		const { setView, view, feedQuery, analyticsQuery, totalHolidaysCounter } =
+			useDashboardController();
 
 		return (
 			<div>
-				Dashboard
+				Dashboard ({totalHolidaysCounter})
 				<Tabs.Root value={view} onValueChange={setView}>
 					<Tabs.List>
 						<Tabs.Tab value="feed">Feed</Tabs.Tab>
@@ -30,7 +32,7 @@ export const dashboardRoute = createRoute({
 						<Feed query={feedQuery} />
 					</Tabs.Panel>
 					<Tabs.Panel value="analytics">
-						<div>Analytics</div>
+						<Analytics query={analyticsQuery} />
 					</Tabs.Panel>
 				</Tabs.Root>
 			</div>
