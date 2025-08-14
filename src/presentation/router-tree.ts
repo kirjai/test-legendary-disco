@@ -1,5 +1,5 @@
-import { indexRoute } from "./routes"
-import { rootRoute } from "./routes/__root"
-import { dashboardRoute } from "./routes/dashboard"
+import { indexRoute } from "./routes/index/index.route";
+import { rootRoute } from "./routes/root.route";
+import { dashboardRoute } from "./routes/dashboard/dashboard.route";
 
-export const routeTree = rootRoute.addChildren([indexRoute, dashboardRoute])
+export const routeTree = rootRoute.addChildren([indexRoute, dashboardRoute]);
