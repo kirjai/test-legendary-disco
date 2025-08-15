@@ -3,8 +3,8 @@ import { Tabs } from "@base-ui-components/react/tabs";
 import { createRoute } from "@tanstack/react-router";
 import z from "zod";
 import { rootRoute } from "../root.route";
-import { Feed } from "./feed";
 import { Analytics } from "./analytics";
+import { Feed } from "./feed";
 
 export const dashboardRoute = createRoute({
 	getParentRoute: () => rootRoute,

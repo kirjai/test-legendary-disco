@@ -15,7 +15,7 @@ export const indexRoute = createRoute({
 			validators: {
 				onSubmit: welcomeFormSchema,
 			},
-			onSubmit: handleFormSubmit,
+			onSubmit: (submit) => handleFormSubmit(submit.value),
 		});
 
 		return (

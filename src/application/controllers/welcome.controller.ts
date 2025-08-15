@@ -23,7 +23,11 @@ export const createUseWelcomeController = (
 	return () => {
 		const navigate = useNavigate({ from: indexRoute.fullPath });
 
-		const handleFormSubmit = () => {
+		const handleFormSubmit = (
+			formValues: z.infer<typeof welcomeFormSchema>,
+		) => {
+			authenticationService.createSession(formValues.code);
+
 			return navigate({ to: "/dashboard" });
 		};
 
