@@ -1,12 +1,12 @@
-import type {
-	NagerClient,
-	PublicHoliday,
-} from "@/infrastructure/nager/nager.client";
 import type { Analytics, AnalyticsResult } from "./model/analytics.model";
 import type { AnalyticsReportEvent } from "../shared/events/domain-events";
 import type { AnalyticsService as IAnalyticsService } from "./analytics.service.interface";
 import type { Cache } from "@/infrastructure/global-cache-memory/cache.interface";
 import type { EventBus } from "@/infrastructure/event-bus/event-bus.interface";
+import type {
+	NagerClient,
+	PublicHoliday,
+} from "@/infrastructure/nager/nager.client.interface";
 
 export class AnalyticsService implements IAnalyticsService {
 	constructor(
@@ -87,9 +87,10 @@ export class AnalyticsService implements IAnalyticsService {
 			.map(this.holidayToHolidayInMonth)
 			.reduce(this.holidaysInMonthsSemigroup, new Map<string, number>());
 
-		const most = Array.from(holidaysInMonths.entries()).sort(
-			([, aCount], [, bCount]) => bCount - aCount,
-		)[0];
+		const most =
+			Array.from(holidaysInMonths.entries()).sort(
+				([, aCount], [, bCount]) => bCount - aCount,
+			)[0] ?? null;
 
 		return {
 			totalInYear: holidays.length,

@@ -13,6 +13,17 @@ export class NetworkError extends Error {
 		message: string,
 		cause: unknown,
 		public readonly request: Request,
+		public readonly response: Response | null,
+	) {
+		super(message, { cause });
+	}
+}
+
+export class InvalidJSONError extends Error {
+	constructor(
+		message: string,
+		cause: unknown,
+		public readonly response: unknown,
 	) {
 		super(message, { cause });
 	}

@@ -3,7 +3,7 @@ export interface Analytics {
 	/**
 	 * Month with the most holidays, and the number of holidays in that month
 	 */
-	mostInMonth: [month: string, count: number];
+	mostInMonth: [month: string, count: number] | null;
 }
 
 export type AnalyticsResult = {

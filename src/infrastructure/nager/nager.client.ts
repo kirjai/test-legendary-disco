@@ -1,10 +1,14 @@
 import z from "zod";
 import type { NetworkManager } from "../network-manager/network-manager.interface";
+import {
+	PublicHoliday,
+	type NagerClient as INagerClient,
+} from "./nager.client.interface";
 
 /**
  * Encapsulates communication with the Nager API.
  */
-export class NagerClient {
+export class NagerClient implements INagerClient {
 	private readonly baseUrl = "https://date.nager.at";
 
 	constructor(private readonly networkManager: NetworkManager) {}
@@ -44,17 +48,6 @@ export class NagerClient {
 		});
 	}
 }
-
-/**
- * There are more properties, but these are the only one we need.
- *
- * @see https://date.nager.at/Api
- */
-const PublicHoliday = z.object({
-	date: z.string(),
-	name: z.string(),
-});
-export interface PublicHoliday extends z.infer<typeof PublicHoliday> {}
 
 const PublicHolidaysForYearAndCountryResponseBody = z.array(PublicHoliday);
 

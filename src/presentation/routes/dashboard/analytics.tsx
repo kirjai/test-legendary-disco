@@ -21,12 +21,17 @@ export const Analytics = ({
 					);
 				}
 
+				const mostInMonthSummary = data.analytics.mostInMonth ? (
+					<>
+						With the most holidays in {data.analytics.mostInMonth[0]} with{" "}
+						{data.analytics.mostInMonth[1]} holidays.
+					</>
+				) : null;
+
 				return (
 					<div>
 						In {data.year} in {data.country} there were{" "}
-						{data.analytics.totalInYear} holidays. With the most holidays in{" "}
-						{data.analytics.mostInMonth[0]} with {data.analytics.mostInMonth[1]}{" "}
-						holidays.
+						{data.analytics.totalInYear} holidays. {mostInMonthSummary}
 					</div>
 				);
 			}}

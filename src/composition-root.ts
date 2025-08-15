@@ -9,7 +9,7 @@ import { NagerClient } from "./infrastructure/nager/nager.client";
 import { NetworkManagerService } from "./infrastructure/network-manager/network-manager.service";
 
 // Infrastructure layer
-const networkManager = new NetworkManagerService();
+const networkManager = new NetworkManagerService(fetch.bind(window));
 const nagerClient = new NagerClient(networkManager);
 const eventBus = new EventBus();
 const globalCacheMemory = new GlobalCacheMemory();

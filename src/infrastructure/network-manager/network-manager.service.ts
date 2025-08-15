@@ -1,9 +1,11 @@
-import { NetworkError } from "./network-manager.interface";
+import { InvalidJSONError, NetworkError } from "./network-manager.interface";
 
 /**
  * Encapsulates communication via the network.
  */
 export class NetworkManagerService implements NetworkManagerService {
+	constructor(private readonly fetchAPI: typeof fetch) {}
+
 	/**
 	 * Makes a request to the network and returns the parsed JSON response.
 	 */
@@ -14,16 +16,23 @@ export class NetworkManagerService implements NetworkManagerService {
 			onError: (error: Error) => void;
 		},
 	) {
-		return fetch(request)
+		return this.fetchAPI(request)
 			.then((response) => {
 				if (!response.ok) {
 					throw new NetworkError(
 						"Network response was not ok",
 						{ cause: response },
 						request,
+						response,
 					);
 				}
-				return response.json();
+				return response.json().catch((error) => {
+					throw new InvalidJSONError(
+						"Invalid JSON",
+						{ cause: error },
+						response,
+					);
+				});
 			})
 			.then((data) => callbacks.onSuccess(data))
 			.catch((error) => {
@@ -34,6 +43,7 @@ export class NetworkManagerService implements NetworkManagerService {
 								"Unknown fetch error",
 								{ cause: error },
 								request,
+								null,
 							);
 				callbacks.onError(asError);
 			});
