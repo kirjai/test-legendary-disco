@@ -42,9 +42,9 @@ export class AnalyticsService implements IAnalyticsService {
 						this.cache.set(cacheKey, analytics);
 					}
 
-					this.eventBus.publish(this.toAnalyticsReportEvent(analytics));
-
 					callbacks.onSuccess(analyticsResult);
+
+					this.eventBus.publish(this.toAnalyticsReportEvent(analytics));
 				},
 				onError: (error) => {
 					callbacks.onError(error);
