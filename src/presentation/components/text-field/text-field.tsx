@@ -16,9 +16,11 @@ export const TextField = ({
 	const errorId = `${fieldId}-errors`;
 
 	return (
-		<div>
-			<label>
-				<span>{label}</span>
+		<div className="space-y-2">
+			<label className="block">
+				<span className="block text-sm font-medium text-gray-700 mb-1">
+					{label}
+				</span>
 
 				<input
 					type="text"
@@ -27,18 +29,29 @@ export const TextField = ({
 					onBlur={field.handleBlur}
 					aria-invalid={hasError}
 					aria-describedby={hasError ? errorId : undefined}
+					className={`
+						w-full px-3 py-2 border rounded-md shadow-sm
+						focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+						${
+							hasError
+								? "border-red-300 focus:ring-red-500 focus:border-red-500"
+								: "border-gray-300"
+						}
+					`}
 					{...inputProps}
 				/>
 			</label>
 
-			{hasError ? (
-				<ul id={errorId}>
-					{errors.map((error, index) => (
-						// no better hueristic to determine the key available
-						<li key={index}>{error.message}</li>
-					))}
-				</ul>
-			) : null}
+			<ul
+				id={errorId}
+				className="text-sm text-red-600 space-y-1 min-h-5"
+				aria-hidden={!hasError}
+			>
+				{errors.map((error, index) => (
+					// no better hueristic to determine the key available
+					<li key={index}>{error.message}</li>
+				))}
+			</ul>
 		</div>
 	);
 };
