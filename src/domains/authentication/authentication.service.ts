@@ -1,4 +1,6 @@
-export class AuthenticationService {
+import type { AuthenticationService as IAuthenticationService } from "./authentication.service.interface";
+
+export class AuthenticationService implements IAuthenticationService {
 	private readonly accessCodes: Set<string>;
 
 	constructor() {
@@ -7,7 +9,7 @@ export class AuthenticationService {
 		);
 	}
 
-	isValidAccessCode(code: string) {
+	isAccessCodeValid(code: string) {
 		return this.accessCodes.has(this.normalizeCode(code));
 	}
 

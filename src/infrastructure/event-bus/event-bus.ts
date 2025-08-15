@@ -1,6 +1,6 @@
 import type { DomainEvent } from "@/domains/shared/events/domain-events";
 
-export class EventBus {
+export class EventBus implements EventBus {
 	private readonly subscribers = new Map<
 		string,
 		Set<(event: DomainEvent) => void>

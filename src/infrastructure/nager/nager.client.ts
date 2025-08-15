@@ -1,5 +1,5 @@
 import z from "zod";
-import type { NetworkManagerService } from "../network-manager/network-manager.service";
+import type { NetworkManager } from "../network-manager/network-manager.interface";
 
 /**
  * Encapsulates communication with the Nager API.
@@ -7,7 +7,7 @@ import type { NetworkManagerService } from "../network-manager/network-manager.s
 export class NagerClient {
 	private readonly baseUrl = "https://date.nager.at";
 
-	constructor(private readonly networkManager: NetworkManagerService) {}
+	constructor(private readonly networkManager: NetworkManager) {}
 
 	loadPublicHolidaysForYearAndCountry(
 		year: number,
@@ -31,9 +31,11 @@ export class NagerClient {
 				const parseResult =
 					PublicHolidaysForYearAndCountryResponseBody.safeParse(responseBody);
 				if (!parseResult.success) {
-					const error = new Error("Invalid public holidays response", {
-						cause: parseResult.error,
-					});
+					const error = new ParseError(
+						"Invalid public holidays response",
+						parseResult.error,
+						responseBody,
+					);
 					return callbacks.onError(error);
 				}
 				callbacks.onSuccess(parseResult.data);
@@ -55,3 +57,13 @@ const PublicHoliday = z.object({
 export interface PublicHoliday extends z.infer<typeof PublicHoliday> {}
 
 const PublicHolidaysForYearAndCountryResponseBody = z.array(PublicHoliday);
+
+export class ParseError extends Error {
+	constructor(
+		message: string,
+		cause: unknown,
+		public readonly got: unknown,
+	) {
+		super(message, { cause });
+	}
+}

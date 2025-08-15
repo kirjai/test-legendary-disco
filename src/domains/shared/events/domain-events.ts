@@ -5,4 +5,4 @@ export interface AnalyticsReportEvent {
 	payload: {
 		totalInYear: number;
 	};
-};
+}

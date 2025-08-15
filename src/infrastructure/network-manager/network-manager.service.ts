@@ -1,7 +1,9 @@
+import { NetworkError } from "./network-manager.interface";
+
 /**
  * Encapsulates communication via the network.
  */
-export class NetworkManagerService {
+export class NetworkManagerService implements NetworkManagerService {
 	/**
 	 * Makes a request to the network and returns the parsed JSON response.
 	 */
@@ -15,7 +17,11 @@ export class NetworkManagerService {
 		return fetch(request)
 			.then((response) => {
 				if (!response.ok) {
-					throw new Error("Network response was not ok", { cause: response });
+					throw new NetworkError(
+						"Network response was not ok",
+						{ cause: response },
+						request,
+					);
 				}
 				return response.json();
 			})
@@ -24,7 +30,11 @@ export class NetworkManagerService {
 				const asError =
 					error instanceof Error
 						? error
-						: new Error("Unknown fetch error", { cause: error });
+						: new NetworkError(
+								"Unknown fetch error",
+								{ cause: error },
+								request,
+							);
 				callbacks.onError(asError);
 			});
 	}

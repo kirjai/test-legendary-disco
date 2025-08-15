@@ -15,7 +15,7 @@ export const createUseWelcomeController = (
 			.string()
 			.trim()
 			.min(1, "Access code is required")
-			.refine((code) => authenticationService.isValidAccessCode(code), {
+			.refine((code) => authenticationService.isAccessCodeValid(code), {
 				error: "Unrecognized access code",
 			}),
 	});

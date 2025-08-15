@@ -1,7 +1,9 @@
-export class GlobalCacheMemory {
+import type { Cache } from "./cache.interface";
+
+export class GlobalCacheMemory implements Cache {
 	private readonly cache = new Map<string, any>();
 
-	store<T>(key: string, value: T) {
+	set<T>(key: string, value: T) {
 		this.cache.set(key, value);
 	}
 

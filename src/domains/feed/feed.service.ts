@@ -3,8 +3,9 @@ import type {
 	PublicHoliday,
 } from "@/infrastructure/nager/nager.client";
 import type { DataFeedItem } from "./model/data-feed-item.model";
+import type { FeedService as IFeedService } from "./feed.service.interface";
 
-export class FeedService {
+export class FeedService implements IFeedService {
 	constructor(private readonly nagerClient: NagerClient) {}
 
 	loadDataFeed(callbacks: {

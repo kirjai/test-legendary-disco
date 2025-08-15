@@ -3,14 +3,15 @@ import type {
 	PublicHoliday,
 } from "@/infrastructure/nager/nager.client";
 import type { Analytics, AnalyticsResult } from "./model/analytics.model";
-import type { GlobalCacheMemory } from "@/infrastructure/global-cache-memory/global-cache-memory";
-import type { EventBus } from "@/infrastructure/event-bus/event-bus";
 import type { AnalyticsReportEvent } from "../shared/events/domain-events";
+import type { AnalyticsService as IAnalyticsService } from "./analytics.service.interface";
+import type { Cache } from "@/infrastructure/global-cache-memory/cache.interface";
+import type { EventBus } from "@/infrastructure/event-bus/event-bus.interface";
 
-export class AnalyticsService {
+export class AnalyticsService implements IAnalyticsService {
 	constructor(
 		private readonly nagerClient: NagerClient,
-		private readonly globalCacheMemory: GlobalCacheMemory,
+		private readonly cache: Cache,
 		private readonly eventBus: EventBus,
 	) {}
 
@@ -38,7 +39,7 @@ export class AnalyticsService {
 					);
 
 					if (analyticsResult._tag === "Cached") {
-						this.globalCacheMemory.store(cacheKey, analytics);
+						this.cache.set(cacheKey, analytics);
 					}
 
 					this.eventBus.publish(this.toAnalyticsReportEvent(analytics));
